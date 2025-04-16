@@ -15,20 +15,21 @@ def main():
     1. 다층 퍼셉트론 모델을 생성합니다.
     '''
     
-    model = None
-    model.add(None)
+    model = tf.keras.Sequential()
+    model.add(tf.keras.layers.Dense(20, input_dim=2, activation='relu')) #input_dim: 데이터 크기
+    model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
     
     '''
     2. 모델의 손실 함수, 최적화 방법, 평가 방법을 설정합니다.
     '''
     
-    model.compile(None)
+    model.compile(loss = 'mse', optimizer = 'adam', metrics= ['binary_accuracy'])
     
     '''
     3. 모델을 학습시킵니다. epochs를 자유롭게 설정해보세요.
     ''' 
     
-    hist = None
+    hist = model.fit(training_data, target_data, epochs = 500, verbose = 1)
     
     score = hist.history['binary_accuracy'][-1]
     

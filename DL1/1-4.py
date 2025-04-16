@@ -20,15 +20,16 @@ import numpy as np
 
 def NAND_gate(x1, x2):
     
-    x = None
+    x = np.array([x1, x2])
     
-    weight = None
+    weight = np.array([-0.5, -0.5])
     
-    bias = None
+    bias = 0.8
     
-    y = None
+    y = np.dot(x, weight) + bias
     
     return Step_Function(y)
+
 
 '''
 2. NOR_gate 함수를 완성하세요.
@@ -49,13 +50,13 @@ def NAND_gate(x1, x2):
 
 def NOR_gate(x1, x2):
     
-    x = None
+    x = np.array([x1, x2])
     
-    weight = None
+    weight = np.array([-1.5, -1.5])
     
-    bias = None
+    bias = 0.5
     
-    y = None
+    y = x[0] * weight[0] + x[1] * weight[1] + bias
     
     return Step_Function(y) 
 
@@ -71,7 +72,11 @@ def NOR_gate(x1, x2):
 
 def Step_Function(y):
     
-    None  
+    if y > 0:
+        return 1
+    else:
+        return 0
+
 
 def main():
     

@@ -15,9 +15,9 @@ def read_data(filename):
     Y = []
     
     with open(filename) as fp:
-        N, M = fp.readline().split()
-        N = int(N)
-        M = int(M)
+        N, M = fp.readline().split()   #readline: 데이터의 첫줄만 읽음 / readlines: 데이터 전체 읽음
+        N = int(N) #10
+        M = int(M) #10
         
         for i in range(N):
             line = fp.readline().split()
@@ -38,9 +38,9 @@ def read_data(filename):
 
 def train_MLP_classifier(X, Y):
     
-    clf = None
+    clf = MLPClassifier(hidden_layer_sizes=(100, 150, 250))  #100, 150, 250개의 히든층 쌓음(입력값의 구조만큼, 중복안되게, 병목안되게)
     
-    None
+    clf.fit(X, Y)
     
     return clf
 
@@ -61,7 +61,7 @@ def report_clf_stats(clf, X, Y):
         else:
             miss += 1
     
-    score = None
+    score = 100 * (hit / (hit + miss))
     
     print("Accuracy: %.1lf%% (%d hit / %d miss)" % (score, hit, miss))
 
@@ -86,13 +86,13 @@ def report_clf_stats(clf, X, Y):
 
 def main():
     
-    X_train, Y_train = None
+    X_train, Y_train = read_data(r'C:\Users\302-26\DL-practice\DL1\data\train.txt')
     
-    X_test, Y_test = None
+    X_test, Y_test = read_data(r'C:\Users\302-26\DL-practice\DL1\data\test.txt')
     
-    clf = None
+    clf = train_MLP_classifier(X_train, Y_train)
     
-    score = None
+    score = report_clf_stats(clf, X_test, Y_test)
     
     visualize(clf, X_test, Y_test)
 

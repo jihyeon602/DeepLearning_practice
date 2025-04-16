@@ -23,11 +23,11 @@ def AND_gate(x1, x2):
     
     weight = np.array([0.5,0.5])
     
-    bias = None
+    bias = -0.4
     
-    y = None
+    y = x[0] * weight[0] + x[1] * weight[1] + bias
     
-    return Step_Function(y)
+    return Step_Function(y)  #활성화 함수
     
 '''
 2. OR_gate 함수를 완성하세요.
@@ -52,9 +52,9 @@ def OR_gate(x1, x2):
     
     weight = np.array([0.5,0.5])
     
-    bias = None
+    bias = 0.3
     
-    y = None
+    y = x[0] * weight[0] + x[1] * weight[1] + bias
     
     return Step_Function(y)
 
@@ -67,12 +67,15 @@ def OR_gate(x1, x2):
 '''
 def Step_Function(y):
     
-    None
+    if y > 0.5:   #0.5: 시그모이드 함수 기준
+        return 1
+    else:
+        return 0
     
 def main():
     
     # AND Gate와 OR Gate에 넣어줄 Input
-    array = np.array([[0,0], [0,1], [1,0], [1,1]])
+    array = np.array([[0,0], [0,1], [1,0], [1,1]]) #2차원
     
     # AND Gate를 만족하는지 출력하여 확인
     print('AND Gate 출력')

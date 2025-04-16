@@ -4,7 +4,7 @@ import numpy as np
 
 def linear_model(w0, w1, X):
     
-    f_x = w0 + w1 * X
+    f_x = w0 + w1 * X   #활성화함수
     
     return f_x
     
@@ -15,7 +15,7 @@ def linear_model(w0, w1, X):
 
 def Loss(f_x, y):
     
-    ls = None
+    ls = np.mean(np.square(y - f_x)) #손실함수
     
     return ls
 
@@ -30,9 +30,9 @@ def Loss(f_x, y):
 '''
 
 def gradient_descent(w0, w1, X, y):
-    
-    gradient0 = None
-    gradient1 = None
+    # 기울기
+    gradient0 = 2 * np.mean((y - (w0 + w1*X))*(-1))   #(-2/X.size) * np.sum(y - (w0 + w1*X))
+    gradient1 = 2 * np.mean((y - (w0 + w1*X))*(-1 * X))
     
     return np.array([gradient0, gradient1])
 
@@ -62,11 +62,11 @@ def main():
     
     # 반복 횟수 1000으로 설정
     for i in range(1000):
-    
-        gd = None
+        # 최적화 알고리즘 
+        gd = gradient_descent(w0, w1, X, y)
         
-        w0 = None
-        w1 = None
+        w0 = w0 - lr * gd[0]
+        w1 = w1 - lr * gd[1]
         
         # 100회마다의 해당 loss와 w0, w1 출력
         if (i % 100 == 0):

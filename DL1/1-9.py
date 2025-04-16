@@ -26,7 +26,7 @@ def load_data():
     X = iris.data[:,2:4]
     Y = iris.target
     
-    X_train, X_test, Y_train, Y_test = None
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size= 0.2, random_state= 0)
     
     return X_train, X_test, Y_train, Y_test
     
@@ -47,17 +47,18 @@ def load_data():
 
 def main():   
     
-    X_train, X_test, Y_train, Y_test = None
+    X_train, X_test, Y_train, Y_test = load_data()
+
+    #max_iter: 최대반복 횟수(가중치 업체이트 횟수) #eta0: 가중치 업데이트에서의 학습률
+    perceptron = Perceptron(max_iter = 20, eta0 = 0.000001)   
     
-    perceptron = None
+    perceptron.fit(X_train, Y_train)
     
-    None
-    
-    pred = None
+    pred = perceptron.predict(X_test)
     
     accuracy = accuracy_score(pred, Y_test)
     
-    print("Test 데이터에 대한 정확도 : %0.5f" % accuracy)
+    print("Test 데이터에 대한 정확도 : %0.2f" % accuracy)
     
     return X_train, X_test, Y_train, Y_test, pred
 

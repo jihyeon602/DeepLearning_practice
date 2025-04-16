@@ -3,12 +3,11 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import random
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-import elice_utils
-elice_utils = elice_utils.EliceUtils()
 
 np.random.seed(100)
 tf.random.set_seed(100)
@@ -27,21 +26,28 @@ tf.random.set_seed(100)
 
 def MLP(x_train, y_train):
     
-    model = tf.keras.models.Sequential([None])
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dense(256, activation='relu'),
+        tf.keras.layers.Dense(10, activation='softmax')
+    ])
     
-    model.compile(None)
+    model.compile(loss = 'sparse_categorical_crossentropy', 
+                  optimizer = 'adam', 
+                  metrics = ['accuracy'])
     
-    None
+    model.fit(x_train, y_train, epochs = 170)
     
     return model
 
 def main():
     
-    x_train = np.loadtxt('./data/train_images.csv', delimiter =',', dtype = np.float32)
-    y_train = np.loadtxt('./data/train_labels.csv', delimiter =',', dtype = np.float32)
-    x_test = np.loadtxt('./data/test_images.csv', delimiter =',', dtype = np.float32)
-    y_test = np.loadtxt('./data/test_labels.csv', delimiter =',', dtype = np.float32)
-    
+    x_train = np.loadtxt(r'C:\Users\302-26\DL-practice\DL2\data\train_images.csv', delimiter=',', dtype=np.float32)
+    y_train = np.loadtxt(r'C:\Users\302-26\DL-practice\DL2\data\train_labels.csv', delimiter=',', dtype=np.float32)
+    x_test = np.loadtxt(r'C:\Users\302-26\DL-practice\DL2\data\test_images.csv', delimiter=',', dtype=np.float32)
+    y_test = np.loadtxt(r'C:\Users\302-26\DL-practice\DL2\data\test_labels.csv', delimiter=',', dtype=np.float32)
+
     # 이미지 데이터를 0~1범위의 값으로 바꾸어 줍니다.
     x_train, x_test = x_train / 255.0, x_test / 255.0
     
@@ -61,10 +67,22 @@ def main():
         plt.imshow(img,cmap="gray")
         plt.show()
         plt.savefig("test.png")
-        elice_utils.send_image("test.png")
         
         print("Label: ", y_test[i])
         print("Prediction: ", np.argmax(predictions[i]))
 
 if __name__ == "__main__":
     main()
+
+'''
+0 티셔츠/탑
+1 바지
+2 스웨터
+3 드레스
+4 코트
+5 샌들
+6 셔츠
+7 스니커즈
+8 가방
+9 발목 부츠
+'''  

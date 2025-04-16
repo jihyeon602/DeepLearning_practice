@@ -56,9 +56,9 @@ def getParameters(X, y) :
     
     # Step01.
     
-    f = None
+    f = len(X[0]) 
     
-    w = None
+    w = [1,1,1]  #[1] * f
     
     values = []
     
@@ -66,17 +66,18 @@ def getParameters(X, y) :
         
         # Step02.
         
-        wPrime = None    
+        wPrime = [0] * f    
         
         # Step03.
         
         for i in range(len(y)) :
             r = 0
             for j in range(f) :
-                r = None
+                r = r + X[i][j] * w[j]   #X[i][j]: 좌표
             
-            v = None
-            
+            v = sigmoid(r)
+            #vv.append(v)
+
             # w를 업데이트하기 위한 wPrime을 역전파를 이용해 구하는 식
             for j in range(f) :
                 wPrime[j] += -((v - y[i]) * v * (1-v) * X[i][j])
@@ -86,15 +87,15 @@ def getParameters(X, y) :
         flag = False
         
         for i in range(f) :
-            if None :
-                flag = None
+            if abs(wPrime[i]) >= 0.001 :
+                flag = True
                 break
         
-        if flag == None :
+        if flag == False :
             break
         
         for j in range(f) :
-            w[j] = None
+            w[j] = w[j] + wPrime[j]
     
     return w
 
@@ -104,15 +105,20 @@ def main():
     이 코드는 수정하지 마세요.
     '''
     
+    #가중치가 업데이트된 후 최종 가중치(학습된 가중치)
+    # print값: 가중합을 통해 계산된 출력값을 정확하게 예측할 수 있는 학습된 파라미터
     X = [(1, 0, 0), (1, 0, 1), (0, 0, 1)]
     y = [0, 1, 1]
     
     '''
     # 아래의 예제 또한 테스트 해보세요.
+    # 시그모이드 함수에 통과한 결과로, 각 입력에 대해 예측한 확률 값
     X = [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]
     y = [0, 0, 1, 1, 1, 1, 1, 1]
 
+    
     # 아래의 예제를 perceptron이 100% training할 수 있는지도 확인해봅니다.
+    # wPrime 값: 가중치 업데이트를 위한 기울기(변화량)인 wPrime
     X = [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)]
     y = [0, 0, 0, 1, 0, 1, 1, 1]
     '''

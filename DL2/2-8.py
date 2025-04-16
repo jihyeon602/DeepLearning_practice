@@ -19,25 +19,29 @@ def main():
     1. 다층 퍼셉트론 모델을 만듭니다.
     '''
     
-    model = tf.keras.models.Sequential([None])
+    model = tf.keras.models.Sequential([
+        tf.keras.layers.Dense(20, input_dim = 1 ,activation='relu'),
+        tf.keras.layers.Dense(20, activation='relu'),
+        tf.keras.layers.Dense(1)
+    ])
     
     '''
     2. 모델 학습 방법을 설정합니다.
     '''
     
-    model.compile(loss = None, optimizer = None)
+    model.compile(loss = 'mean_squared_error', optimizer = 'adam')
     
     '''
     3. 모델을 학습시킵니다.
     ''' 
     
-    history = None
+    history = model.fit(x_data, y_data, epochs=500, verbose=1)
     
     '''
     4. 학습된 모델을 사용하여 예측값 생성 및 저장
     '''
     
-    predictions = None
+    predictions = model.predict(x_data)
     
     Visualize(x_data, y_data, predictions)
     

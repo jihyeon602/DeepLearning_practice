@@ -11,10 +11,10 @@
 
 def main():
     
-    x = [1,2,3,4]
+    x = [1,2,3,4] #feature
     
-    w = None
-    b = None
+    w = [0.1, 0.3, 0.5, 0.9]
+    b = -1
     
     output, y = perceptron(w,x,b)
     
@@ -35,9 +35,9 @@ def main():
 
 def perceptron(w, x, b):
     
-    output = None
+    output = sum([w[i] * x[i] for i in range(len(w))]) + b
     
-    y = None
+    y = 1 if output >=0 else 0
     
     return output, y
 

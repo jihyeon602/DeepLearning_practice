@@ -20,13 +20,13 @@ import numpy as np
 
 def XOR_gate(x1, x2):
     
-    x = None
+    x = np.array([x1, x2])
     
-    weight = None
+    weight = np.array([0.3, 0.5])
     
-    bias = None
+    bias = -0.5
     
-    y = None
+    y = np.sum(x*weight) + bias
     
     return Step_Function(y)
 
@@ -42,7 +42,10 @@ def XOR_gate(x1, x2):
 
 def Step_Function(y):
     
-    None
+    if y > 0:
+        return 1
+    else:
+        return 0
 
 def main():
     

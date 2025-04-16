@@ -52,11 +52,10 @@ def Step_Function(y):
 '''
 
 def XOR_gate(x1, x2):
+    s1 = OR_gate(x1, x2)
+    s2 = NAND_gate(x1, x2)
     
-    None
-    None
-    
-    return None
+    return AND_gate(s1, s2)
 
 def main():
     

@@ -18,11 +18,14 @@ def main():
     
     a = tf.constant(10, dtype = tf.int32)
     b = tf.constant(3, dtype = tf.int32)
-    
-    add = None
-    sub = None
-    mul = None
-    div = None
+    # a와 b 출력
+    print("a : ", a.numpy())
+    print("b : ", b.numpy())   
+
+    add = tf.add(a, b)
+    sub = tf.subtract(a, b)
+    mul = tf.multiply(a, b)
+    div = tf.truediv(a, b)  #나눗셈
     
     tensor_dict = {'add':add, 'sub':sub, 'mul':mul, 'div':div}
     

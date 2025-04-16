@@ -49,8 +49,8 @@ def main():
 
     tf_2, tf_1 = tf2()[2], tf1()[2]
     
-    print('result_tf1:', tf_1)
-    print('result_tf2:', tf_2)
+    print('result_tf1:', tf_1) #1.X 버전: 8
+    print('result_tf2:', tf_2) #2.0 버전 8
 
 if __name__ == "__main__":
     main()

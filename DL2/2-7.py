@@ -5,8 +5,6 @@ import numpy as np
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-from elice_utils import EliceUtils
-elice_utils = EliceUtils()
 
 np.random.seed(100)
 
@@ -24,13 +22,13 @@ class LinearModel:
     
     def __init__(self):
         
-        self.W = None
+        self.W = tf.Variable(initial_value= 1.5)
         
-        self.b = None
+        self.b = tf.Variable(initial_value= 1.5)
         
     def __call__(self, X, Y):
         
-        return None
+        return tf.add(tf.multiply(X, self.W), self.b)
 
 '''
 2. MSE 값을 계산해 반환하는 손실 함수를 완성합니다. 
@@ -38,7 +36,7 @@ class LinearModel:
 
 def loss(y, pred):
     
-    return None
+    return tf.reduce_mean(tf.square(y - pred))
 
 '''
 3. gradient descent 방식으로 학습하는 train 함수입니다.
@@ -72,7 +70,6 @@ def main():
     # 데이터 출력
     plt.scatter(x_data,y_data)
     plt.savefig('data.png')
-    elice_utils.send_image('data.png')
     
     # 선형 함수 적용
     linear_model = LinearModel()
@@ -106,7 +103,6 @@ def main():
             ax1.scatter(x_data,y_data)
             ax1.plot(x_data,y_pred_data, color='red')
             plt.savefig('prediction.png')
-            elice_utils.send_image('prediction.png')
 
 if __name__ == "__main__":
     main()

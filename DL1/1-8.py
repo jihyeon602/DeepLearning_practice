@@ -18,11 +18,11 @@ def load_data(X, y):
             X, y 데이터의 타입은 NumPy array라는 것을 참고하세요.
     """
 
-    X_train = None
-    Y_train = None
+    X_train = X[:1600]
+    Y_train = y[:1600]
 
-    X_test = None
-    Y_test = None
+    X_test = X[1600:]
+    Y_test = y[1600:]
 
     return X_train, Y_train, X_test, Y_test
 
@@ -33,9 +33,12 @@ def train_MLP_classifier(X, y):
     바꿔본 후, 학습을 시킵니다.
     """
 
-    clf = None
+    clf = MLPClassifier(
+        hidden_layer_sizes=(50, 50),  #히든층
+        solver="adam",   #adam: 옵티마이저 이름, 딥러닝에선 가장 우수!
+        beta_1=0.999999,)
 
-    None
+    clf.fit(X, y)
 
     return clf
 
@@ -55,7 +58,7 @@ def report_clf_stats(clf, X, y):
         else:
             miss += 1
 
-    score = None
+    score = float(100 * (hit / (hit + miss)))
 
     print(f"Accuracy: {score:.1f} ({hit} hit / {miss} miss)")
 
@@ -78,13 +81,16 @@ def main():
     digits = load_digits()
 
     X = digits.data
+    print(X[0], X.shape) #입력층: 64개 레이노드 -> 첫번째 히든층 50개 -> 두번째히든층 50개 -> 출력층 10개(0~9)
     y = digits.target
 
-    X_train, Y_train, X_test, Y_test = None
+    X_train, Y_train, X_test, Y_test = load_data(X, y)
+    print(len(X_train), len(X_test))
+    print(len(Y_train), len(Y_test))
 
-    clf = None
+    clf = train_MLP_classifier(X_train, Y_train)
 
-    score = None
+    score = report_clf_stats(clf, X_test, Y_test)
 
     return 0
 
