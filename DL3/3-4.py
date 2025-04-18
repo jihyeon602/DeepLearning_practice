@@ -6,29 +6,32 @@ def build_vgg16():
     model = Sequential()
     
     # TODO: [지시시항 1번] 첫번째 Block을 완성하세요.
-    model.add(layers.Conv2D(None, input_shape=(224, 224, 3)))
-    model.add(layers.Conv2D(None))
-    model.add(layers.MaxPooling2D(None))
+    model.add(layers.Conv2D(64, kernel_size = (3,3), padding = "same", activation = "relu", input_shape=(224, 224, 3)))
+    model.add(layers.Conv2D(64, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.MaxPooling2D(2))
     
     # TODO: [지시시항 2번] 두번째 Block을 완성하세요.
-    model.add(layers.Conv2D(None))
-    model.add(layers.Conv2D(None))
-    model.add(layers.MaxPooling2D(None))
+    model.add(layers.Conv2D(128, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(128, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.MaxPooling2D(2))
     
     # TODO: [지시시항 3번] 세번째 Block을 완성하세요.
-    model.add(layers.Conv2D(None))
-    model.add(layers.Conv2D(None))
-    model.add(layers.Conv2D(None))
-    model.add(layers.MaxPooling2D(None))
+    model.add(layers.Conv2D(256, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(256, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(256, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.MaxPooling2D(2))
     
     # TODO: [지시시항 4번] 네번째 Block을 완성하세요.
-    model.add(layers.Conv2D(None))
-    model.add(layers.Conv2D(None))
-    model.add(layers.Conv2D(None))
-    model.add(layers.MaxPooling2D(None))
+    model.add(layers.Conv2D(512, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(512, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(512, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.MaxPooling2D(2))
     
     # TODO: [지시시항 5번] 다섯번째 Block을 완성하세요.
-    None
+    model.add(layers.Conv2D(512, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(512, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.Conv2D(512, kernel_size = (3,3), padding = "same", activation = "relu"))
+    model.add(layers.MaxPooling2D(2))
     
     # Fully Connected Layer
     model.add(layers.Flatten())

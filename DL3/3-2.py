@@ -11,10 +11,10 @@ import matplotlib.pyplot as plt
 SEED = 2024
 
 def load_cifar10_dataset():
-    train_X = np.load("./dataset/cifar10_train_X.npy")
-    train_y = np.load("./dataset/cifar10_train_y.npy")
-    test_X = np.load("./dataset/cifar10_test_X.npy")
-    test_y = np.load("./dataset/cifar10_test_y.npy")
+    train_X = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_train_X.npy")
+    train_y = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_train_y.npy")
+    test_X = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_test_X.npy")
+    test_y = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_test_y.npy")
     
     train_X, test_X = train_X / 255.0, test_X / 255.0
     
@@ -26,7 +26,12 @@ def build_mlp_model(img_shape, num_classes=10):
     model.add(Input(shape=img_shape))
     
     # TODO: [지시사항 1번] 모델을 완성하세요.
-    model.add(None)
+    model.add(layers.Flatten())
+    model.add(layers.Dense(4096, activation = 'relu'))
+    model.add(layers.Dense(1024, activation = 'relu'))
+    model.add(layers.Dense(256, activation = 'relu'))
+    model.add(layers.Dense(64, activation = 'relu'))
+    model.add(layers.Dense(num_classes, activation="softmax"))
 
     return model
     
@@ -62,17 +67,25 @@ def main(model=None, epochs=10):
     img_shape = train_X[0].shape
     
     # TODO: [지시사항 2번] Adam optimizer를 설정하세요.
-    optimizer = None
+    optimizer = Adam(learning_rate=1e-3)
 
     mlp_model = model
     if model is None:
         mlp_model = build_mlp_model(img_shape)
     
     # TODO: [지시사항 3번] 모델의 optimizer, 손실 함수, 평가 지표를 설정하세요.
-    None
+    mlp_model.compile(optimizer=optimizer, loss = "sparse_categorical_crossentropy",
+     metrics = ["accuracy"])
     
+
+
     # TODO: [지시사항 4번] 모델 학습을 위한 hyperparameter를 설정하세요.
-    hist = None
+    hist = mlp_model.fit(train_X, train_y, 
+                         epochs=epochs, 
+                         batch_size = 64,
+                         validation_split=0.2, 
+                         shuffle=True, 
+                         verbose=2)
     
     plot_history(hist)
     test_loss, test_acc = mlp_model.evaluate(test_X, test_y)

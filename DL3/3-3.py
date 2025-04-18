@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 SEED = 2021
 
 def load_cifar10_dataset():
-    train_X = np.load("./dataset/cifar10_train_X.npy")
-    train_y = np.load("./dataset/cifar10_train_y.npy")
-    test_X = np.load("./dataset/cifar10_test_X.npy")
-    test_y = np.load("./dataset/cifar10_test_y.npy")
+    train_X = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_train_X.npy")
+    train_y = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_train_y.npy")
+    test_X = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_test_X.npy")
+    test_y = np.load(r"C:\Users\302-26\DL-practice\DL3\data\dataset_cifar10_test_y.npy")
     
     train_X, test_X = train_X / 255.0, test_X / 255.0
     
@@ -23,7 +23,12 @@ def build_mlp_model(img_shape, num_classes=10):
     model.add(Input(shape=img_shape))
     
     # TODO: [지시사항 1번] MLP 모델을 완성하세요.
-    model.add(None)
+    model.add(layers.Flatten())
+    model.add(layers.Dense(4096, activation = 'relu'))
+    model.add(layers.Dense(1024, activation = 'relu'))
+    model.add(layers.Dense(256, activation = 'relu'))
+    model.add(layers.Dense(64, activation = 'relu'))
+    model.add(layers.Dense(num_classes, activation="softmax"))
 
     return model
 
@@ -31,7 +36,17 @@ def build_cnn_model(img_shape, num_classes=10):
     model = Sequential()
 
     # TODO: [지시사항 2번] CNN 모델을 완성하세요.
-    model.add(None)
+    model.add(layers.Conv2D(16, kernel_size=(3,3), padding='same', input_shape = img_shape, activation = 'relu'))
+    model.add(layers.Conv2D(32, kernel_size=(3,3), padding='same', activation = 'relu'))
+    model.add(layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
+
+    model.add(layers.Conv2D(64, kernel_size=(3,3), padding='same', strides = (2,2), activation = 'relu'))
+    model.add(layers.Conv2D(64, kernel_size=(3,3), padding='same', strides = (2,2), activation = 'relu'))
+    model.add(layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
+
+    model.add(layers.Flatten())
+    model.add(layers.Dense(128, activation = 'relu'))
+    model.add(layers.Dense(num_classes, activation = 'softmax'))
 
     return model
     
@@ -61,14 +76,20 @@ def plot_history(hist):
     
 def run_model(model, train_X, train_y, test_X, test_y, epochs=10):
     # TODO: [지시사항 3번] Adam optimizer를 설정하세요.
-    optimizer = None
+    optimizer = Adam(learning_rate=1e-3)
     
     model.summary()
     # TODO: [지시사항 4번] 모델의 optimizer, 손실 함수, 평가 지표를 설정하세요.
-    None
+    model.compile(optimizer=optimizer, loss = "sparse_categorical_crossentropy",
+     metrics = ["accuracy"])
     
     # TODO: [지시사항 5번] 모델 학습을 위한 hyperparameter를 설정하세요.
-    hist = None
+    hist = model.fit(train_X, train_y,
+                         epochs=epochs,
+                         batch_size=64,
+                         validation_split=0.2,
+                         shuffle=True,
+                         verbose=2)
     
     plot_history(hist)
     test_loss, test_acc = model.evaluate(test_X, test_y)

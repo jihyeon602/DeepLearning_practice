@@ -6,13 +6,13 @@ class ResidualBlock(Model):
         super(ResidualBlock, self).__init__()
 
         # TODO: [지시사항 1번] 2개의 Conv2D Layer를 지시사항에 따라 추가하세요.
-        self.conv1 = None
-        self.conv2 = None
+        self.conv1 = layers.Conv2D(num_kernels, kernel_size = kernel_size, padding = "same", activation = "relu")
+        self.conv2 = layers.Conv2D(num_kernels, kernel_size = kernel_size, padding = "same", activation = "relu")
         
         self.relu = layers.Activation("relu")
         
         # TODO: [지시사항 1번] Add Layer를 추가하세요.
-        self.add = None
+        self.add = layers.Add()
 
     def call(self, input_tensor):
         x = self.conv1(input_tensor)
@@ -33,7 +33,7 @@ def build_resnet(input_shape, num_classes):
     model.add(ResidualBlock(64, (3, 3)))
     model.add(ResidualBlock(64, (3, 3)))
     
-    model.add(layers.GlobalAveragePooling2D())
+    model.add(layers.GlobalAveragePooling2D())  #globalpooling은 flatten 필요없음
     model.add(layers.Dense(num_classes, activation="softmax"))
     
     return model
