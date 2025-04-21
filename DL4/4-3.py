@@ -10,7 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def load_data(window_size):
-    raw_data = pd.read_csv("./airline-passengers.csv")
+    raw_data = pd.read_csv("./DL4/airline-passengers.csv")
     raw_passengers = raw_data["Passengers"].to_numpy()
 
     # 데이터의 평균과 표준편차 값으로 정규화(표준화) 합니다.
@@ -52,7 +52,8 @@ def build_rnn_model(window_size):
     model = Sequential()
 
     # TODO: [지시사항 1번] SimpleRNN 기반 모델을 구성하세요.
-    model.add(None)
+    model.add(layers.SimpleRNN(4, input_shape=(window_size, 1)))
+    model.add(layers.Dense(1))
 
     return model
     
@@ -86,11 +87,11 @@ def main(model=None, epochs=10):
         model = build_rnn_model(window_size)
 
     # TODO: [지시사항 2번] 모델 학습을 위한 optimizer와 loss 함수를 설정하세요.
-    optimizer = None
-    None
+    optimizer = Adam(learning_rate = 0.001)
+    model.compile(optimizer= optimizer, loss = 'mse')
 
     # TODO: [지시사항 3번] 모델 학습을 위한 hyperparameter를 설정하세요.
-    hist = None
+    hist = model.fit(X_train, y_train, batch_size = 8, epochs = epochs, shuffle = True, verbose=2)
     
     # 테스트 데이터셋으로 모델을 테스트합니다.
     test_loss = model.evaluate(X_test, y_test, verbose=0)

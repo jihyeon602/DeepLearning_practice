@@ -8,8 +8,8 @@ from tensorflow.keras import layers, Sequential
 def build_model1():
     model = Sequential()
     
-    model.add(layers.Embedding(None, None))
-    model.add(layers.SimpleRNN(None))
+    model.add(layers.Embedding(10, 5))
+    model.add(layers.SimpleRNN(3))
     
     return model
 
@@ -17,7 +17,9 @@ def build_model1():
 def build_model2():
     model = Sequential()
     
-    model.add(None)
+    model.add(layers.Embedding(256, 100))
+    model.add(layers.SimpleRNN(20))
+    model.add(layers.Dense(10, activation = 'softmax'))
     
     return model
     

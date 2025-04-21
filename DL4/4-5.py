@@ -7,19 +7,23 @@ class EncoderDecoder(Model):
         super(EncoderDecoder, self).__init__()
         
         # TODO: [지시사항 1번] SimpleRNN으로 이루어진 Encoder를 정의하세요.
-        self.encoder = None
+        self.encoder = layers.SimpleRNN(hidden_dim, 
+                                        return_state = True, 
+                                        input_shape = encoder_input_shape)
                                         
         # TODO: [지시사항 2번] SimpleRNN으로 이루어진 Decoder를 정의하세요.
-        self.decoder = None
+        self.decoder = layers.SimpleRNN(hidden_dim, 
+                                        return_sequences = True, 
+                                        input_shape = decoder_input_shape)
         
         self.dense = layers.Dense(num_classes, activation="softmax")
         
     def call(self, encoder_inputs, decoder_inputs):
         # TODO: [지시사항 3번] Encoder에 입력값을 넣어 Decoder의 초기 state로 사용할 state를 얻어내세요.
-        None
+        _, encoder_state = self.encoder(encoder_inputs)
         
         # TODO: [지시사항 4번] Decoder에 입력값을 넣고, 초기 state는 Encoder에서 얻어낸 state로 설정하세요.
-        decoder_outputs = None
+        decoder_outputs = self.decoder(decoder_inputs, initial_state=[encoder_state])
         
         outputs = self.dense(decoder_outputs)
         

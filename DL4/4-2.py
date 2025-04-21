@@ -22,7 +22,9 @@ def build_rnn_model(num_words, embedding_len):
     model = Sequential()
     
     # TODO: [지시사항 1번] 지시사항에 따라 모델을 완성하세요.
-    model.add(None)
+    model.add(layers.Embedding(num_words, embedding_len))
+    model.add(layers.SimpleRNN(16))
+    model.add(layers.Dense(1, activation = 'sigmoid'))
     
     return model
 
@@ -43,11 +45,11 @@ def main(model=None, epochs=5):
         model = build_rnn_model(num_words, embedding_len)
     
     # TODO: [지시사항 2번] 모델 학습을 위한 optimizer와 loss 함수를 설정하세요.
-    optimizer = None
-    None
+    optimizer = Adam(learning_rate = 0.001)
+    model.compile(optimizer=optimizer, loss = 'binary_crossentropy', metrics =['accuracy'])
     
     # TODO: [지시사항 3번] 모델 학습을 위한 hyperparameter를 설정하세요.
-    hist = None
+    hist = model.fit(X_train, y_train, epochs=epochs, batch_size = 100, validation_split = 0.2, shuffle = True, verbose = 2)
     
     # 모델을 테스트 데이터셋으로 테스트합니다.
     test_loss, test_acc = model.evaluate(X_test, y_test, verbose=0)

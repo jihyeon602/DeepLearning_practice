@@ -27,7 +27,8 @@ def build_rnn_model(window_size):
     model = Sequential()
 
     # TODO: [지시사항 1번] SimpleRNN 기반 모델을 구성하세요.
-    model.add(None)
+    model.add(layers.SimpleRNN(20, input_shape=(window_size, 1)))
+    model.add(layers.Dense(1))
 
     return model
 
@@ -35,17 +36,19 @@ def build_deep_rnn_model(window_size):
     model = Sequential()
 
     # TODO: [지시사항 2번] 여러개의 SimpleRNN을 가지는 모델을 구성하세요.
-    model.add(None)
+    model.add(layers.SimpleRNN(20, return_sequences = True, input_shape=(window_size, 1)))
+    model.add(layers.SimpleRNN(20))
+    model.add(layers.Dense(1))
 
     return model
 
 def run_model(model, X_train, X_test, y_train, y_test, epochs=20, name=None):
     # TODO: [지시사항 3번] 모델 학습을 위한 optimizer와 loss 함수를 설정하세요.
-    optimizer = None
-    None
+    optimizer = Adam(learning_rate = 0.001)
+    model.compile(optimizer=optimizer, loss = 'mse')
 
     # TODO: [지시사항 4번] 모델 학습을 위한 hyperparameter를 설정하세요.
-    hist = None
+    hist = model.fit(X_train, y_train, epochs = epochs, batch_size = 256, shuffle = True, verbose = 2)
     
     # 테스트 데이터셋으로 모델을 테스트합니다.
     test_loss = model.evaluate(X_test, y_test, verbose=0)
