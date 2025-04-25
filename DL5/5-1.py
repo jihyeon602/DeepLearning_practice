@@ -29,6 +29,6 @@ fcl_model = make_model(n_step)
 
 # TODO: 지시사항을 보고 fit 함수의 매개변수를 설정하세요
 hist=fcl_model.fit(
-x=None, y=None, batch_size=None, epochs=None verbose=None,shuffle=None,
-validation_data=None,  initial_epoch=None,
-validation_steps=None, validation_batch_size=None, validation_freq=None)
+x=x_train, y=y_train, batch_size=100, epochs=20, verbose=1,shuffle=False,
+validation_data=(x_val, y_val),  initial_epoch=10,
+validation_steps=10, validation_batch_size=50, validation_freq=5)

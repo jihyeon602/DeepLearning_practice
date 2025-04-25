@@ -8,6 +8,7 @@ import numpy as np
 import tensorflowjs as tfjs
 
 
+'''충돌난다 쓰지말자
 def load_data():
     (X_train, y_train), (X_test, y_test) = mnist.load_data()
     
@@ -41,10 +42,10 @@ model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=
 model.fit(X_train, y_train, epochs=1, batch_size=64, shuffle=True, verbose=1)    
 
 # TODO: 학습한 모델을 바로 변환 
-None
+tfjs.converters.save_keras_model(model, "JSModel1")
 
 # TODO: 다른 SavedModel 형식의 모델인 "OtherSModel"을 불러오기
-loaded_model = None
+loaded_model = tf.keras.models.load_model('./DL6/q4/OtherSModel')
 
 # TODO: loaded_model을 tensorflow js로 변환
-None
+tfjs.converters.save_keras_model(loaded_model, "JSModel2")'''

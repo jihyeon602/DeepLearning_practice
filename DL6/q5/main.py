@@ -1,12 +1,13 @@
 from flask import Flask, jsonify, request
 import tensorflow as tf
-app = Flask(__name__)
 import PIL.Image as image
 
+app = Flask(__name__)
+
 def work(img, model): # 이미지를 입력하면 숫자를 출력하는 함수
-    pred = None # TODO: 모델에 이미지를 넣고 결과를 pred에 저장
-    pred = None # TODO: batch 단위로 나온 결과에서 이미지 하나의 결과를 추출
-    idx = None  # TODO: 결과중 가장 확률이 높은 index 가져오기
+    pred = model.predict(img) # TODO: 모델에 이미지를 넣고 결과를 pred에 저장
+    pred = pred[0] # TODO: batch 단위로 나온 결과에서 이미지 하나의 결과를 추출
+    idx = tf.math.argmax(pred)  # TODO: 결과중 가장 확률이 높은 index 가져오기
     return idx
 
 @app.route("/", methods=["GET"]) # @app.route를 작성하고, GET Method만 사용합니다.
@@ -15,6 +16,7 @@ def predict():
     result_string="please input image url"
     if imgurl != None:                     # imgurl을 제대로 받은 경우
         imgurl=imgurl.split("?")[0]
+        print(imgurl)
         img = image.open("img/"+imgurl)        # 전달받은 url의 이미지 로드  
         img=tf.keras.utils.img_to_array(img)   # 이미지를 행렬로 변환
         img=tf.expand_dims(img, axis=0)        # batch를 위해 한 차원 높게 변환   
@@ -25,5 +27,5 @@ def predict():
 
 # Flask 서버를 실행하는 코드입니다.
 if __name__ == "__main__":
-    model = None # TODO: 학습된 모델 "mymodel"을 불러오세요.
-    app.run(host="0.0.0.0", port=8080) # flask 서비스 시작
+    model = tf.keras.models.load_model("/DL6/q5/mymodel") # TODO: 학습된 모델 "mymodel"을 불러오세요.
+    app.run(host="{ip}", port={포트번호}, debug=True) # flask 서비스 시작

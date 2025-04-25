@@ -29,13 +29,14 @@ x_val, y_val = series[7000:9000, :n_step],series[7000:9000,-1]
 x_test, y_test = series[9000:, :n_step],series[9000:,-1]
 
 # TODO: 텐서보드 콜백함수를 정의하여 tb에 저장하세요
-tb = None
+
+tb = tf.keras.callbacks.TensorBoard(log_dir="./DL5/logs")
 
 e = 20 #제거 혹은 변경 금지
 def main():        
     deep_rnn = make_model(n_step)
     hist=deep_rnn.fit(
     x=x_train, y=y_train, epochs=e,
-    validation_data=(x_val, y_val),validation_freq=2,callbacks=None) # TODO: 정의한 콜백함수를 리스트로 묶어 전달하세요
+    validation_data=(x_val, y_val),validation_freq=2,callbacks=[tb]) # TODO: 정의한 콜백함수를 리스트로 묶어 전달하세요
 if __name__ == "__main__":
     main()

@@ -10,10 +10,10 @@ import matplotlib.pyplot as plt
 SEED = 2021
 
 def load_cifar10_dataset():
-    train_X = np.load("./dataset/cifar10_train_X.npy")
-    train_y = np.load("./dataset/cifar10_train_y.npy")
-    test_X = np.load("./dataset/cifar10_test_X.npy")
-    test_y = np.load("./dataset/cifar10_test_y.npy")
+    train_X = np.load("./DL3/data/dataset_cifar10_train_X.npy")
+    train_y = np.load("./DL3/data/dataset_cifar10_train_y.npy")
+    test_X = np.load("./DL3/data/dataset_cifar10_test_X.npy")
+    test_y = np.load("./DL3/data/dataset_cifar10_test_y.npy")
     
     train_X, test_X = train_X / 255.0, test_X / 255.0
     
@@ -32,20 +32,20 @@ def build_mlp_model(img_shape, num_classes=10):
 
 # EarlyStopping 콜백함수의 인스턴스를 cb_earlystop에 저장합니다.
 # TODO: 지시사항 1을 참고하여 매개변수를 설정하세요
-cb_earlystop = tf.keras.callbacks.EarlyStopping( monitor = None , 
-                                                 mode = None,
-                                                 verbose = None,
-                                                 patience = None )
+cb_earlystop = tf.keras.callbacks.EarlyStopping( monitor = 'val_loss' , 
+                                                 mode = 'auto',
+                                                 verbose = 1,
+                                                 patience = 2 )
                                                  
 # ModelCheckpoint 콜백함수의 인스턴스를 cb_chkpnt 저장합니다.
 # TODO: 지시사항 2을 참고하여 매개변수를 설정하세요
-cb_chkpnt = tf.keras.callbacks.ModelCheckpoint( filepath = None, 
-                                             monitor = None,
-                                             mode = None,  
-                                             verbose = None, 
-                                             save_best_only = None,
-                                             save_weights_only = None,
-                                             save_freq = None )
+cb_chkpnt = tf.keras.callbacks.ModelCheckpoint( filepath = "./chkpnt/{epoch:04d}.ckpt", 
+                                             monitor = 'val_loss',
+                                             mode = 'auto',  
+                                             verbose = 1, 
+                                             save_best_only = True ,
+                                             save_weights_only = False,
+                                             save_freq = 'epoch' )
 
 def main(epochs=10):
     tf.random.set_seed(SEED)
@@ -62,9 +62,9 @@ def main(epochs=10):
     
     mlp_model.compile(optimizer=optimizer, loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-    hist = mlp_model.fit(train_X, train_y, epochs=epochs, batch_size=64, validation_split=0.2, shuffle=True, verbose=1, None)
+    hist = mlp_model.fit(train_X, train_y, epochs=epochs, batch_size=64, validation_split=0.2, shuffle=True, verbose=1, callback=[cb_earlystop, cb_chkpnt])
     # TODO: cb_earlystop와 cb_chkpnt를 리스트로 묶어 fit 함수의 callbacks 매개변수로 전달하세요.
-
+    
     return optimizer, hist
 
 if __name__ == "__main__":

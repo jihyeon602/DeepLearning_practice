@@ -31,18 +31,22 @@ e = 20 # 채점을 위한 구성입니다. 변경하지 마세요
 
 # TODO: 지시사항을 참고하여 콜백함수를 정의하세요
 class MyCallback(tf.keras.callbacks.Callback):
-    def None:
+    def on_train_begin(self, logs=None):
+        print("Train begin")
 
-    def None:
+    def on_epoch_begin(self, epoch, logs=None):
+        print("%depoch begin"%epoch)
 
-    def None:
+    def on_epoch_end(self, epoch, logs=None):
+        print("%depoch end"%epoch)
+
 
 def main():        
     deep_rnn = make_model(n_step)
-    None # TODO: 정의한 콜백함수 클래스의 인스턴스를 만드세요
+    callback= MyCallback() # TODO: 정의한 콜백함수 클래스의 인스턴스를 만드세요
     hist=deep_rnn.fit(
     x=x_train, y=y_train, epochs=e,verbose=0,
-    validation_data=(x_val, y_val),validation_freq=2,callbacks=None) # TODO: 정의한 콜백함수를 리스트로 묶어 전달하세요
+    validation_data=(x_val, y_val),validation_freq=2,callbacks=callback) # TODO: 정의한 콜백함수를 리스트로 묶어 전달하세요
 
 if __name__ == "__main__":
     main()
