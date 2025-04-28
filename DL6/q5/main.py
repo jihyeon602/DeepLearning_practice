@@ -28,4 +28,4 @@ def predict():
 # Flask 서버를 실행하는 코드입니다.
 if __name__ == "__main__":
     model = tf.keras.models.load_model("/DL6/q5/mymodel") # TODO: 학습된 모델 "mymodel"을 불러오세요.
-    app.run(host="{ip}", port={포트번호}, debug=True) # flask 서비스 시작
+    app.run(host="{ip}", port={"your_port"}, debug=True) # flask 서비스 시작

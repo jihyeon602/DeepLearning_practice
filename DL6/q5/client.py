@@ -4,7 +4,7 @@ import time
 
 def predict_image(image_path):
     print(image_path)
-    url = f"http://{주소}/?image={image_path}"
+    url = f"http://{"your_ip_port"}/?image={image_path}"
 
     response = requests.get(url)
 
