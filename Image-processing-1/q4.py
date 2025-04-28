@@ -6,16 +6,16 @@ import numpy as np
 def show_plot(img, title=" "):
     plt.title(title)
     plt.imshow(img)
-    plt.savefig("tmp.png")
+    #plt.savefig("tmp.png")
     plt.show()
 
 def load_image(path, name):
     # TODO: [지시사항 1번] 이미지를 불러오는 함수를 완성하세요
-    img = None
+    img = Image.open(os.path.join(path,name))
     return img
     
 def main():
-    data_path = "dataset/val/dogs"   
+    data_path = "./CV-practice/Image-processing-1/dataset/val/dogs"   
     
     
     # 이미지를 불러와 plt를 이용하여 출력합니다
@@ -28,14 +28,14 @@ def main():
     
     # TODO: [지시사항 2번] 지시사항에 따라 이미지의 크기를 확인하는 코드를 완성하세요.
     # PIL을 통해 이미지 크기 확인
-    pil_size = None
+    pil_size = img.size
     print("PIL을 통한 이미지 크기:", pil_size)
     
     # PIL 이미지를 numpy 배열로 변환
-    np_img = None
+    np_img = np.array(img)
     
     # numpy 배열의 shape 확인
-    np_shape = None
+    np_shape = np_img.shape
     print("numpy 배열 shape:", np_shape)
     show_plot(np_img, "Numpy array image")
     
@@ -44,11 +44,11 @@ def main():
     pil_pix = img.load()[10, 20]
     
     # numpy 배열에서 x=10, y=20 의 픽셀값을 가져오세요
-    np_pix = None
+    np_pix = np_img[20,10]
     print("PIL의 픽셀값: {}, numpy의 픽셀값: {}".format(pil_pix, np_pix))
     
     # PIL을 이용하여 이미지의 크기를 (224,224)로 변형하세요.
-    resized_img = None
+    resized_img = img.resize((224,224))
     
     # resize된 이미지 출력
     show_plot(resized_img, "Resized image")
